@@ -12,8 +12,8 @@ m2 = 1.0
 #Initial conditions
 theta1 = np.pi / 2
 theta2 = np.pi / 2
-omega1 = 0.0
-omega2 = 0.0
+omega1 = 2.0
+omega2 = 6.0
 
 state = np.array([theta1, omega1, theta2, omega2])
 
@@ -24,15 +24,14 @@ t = np.arange(0, t_max, dt)
 
 def differentials(state):
     theta1, omega1, theta2, omega2 = state
+    delta = theta2 - theta1
     
-    domega1 = 9*g*m2*np.sin(theta2)*np.cos(theta1-theta2)+9*l1*m2*np.sin(theta1-theta2)*np.cos(theta1-theta2)*np.square(omega1)+6*l2*m2*np.sin(theta1-theta2)*np.square(omega2)-6*g*m1*np.sin(theta1)-12*g*m2*np.sin(theta1)
-    domega2 = -9*g*m1*np.sin(theta1)+9*g*m1*np.sin(theta1)*np.cos(theta1-theta2)-6*g*m1*np.sin(theta2)-18*g*m2*np.sin(theta1-theta2)*np.sin(theta1)+18*g*m2*np.sin(theta1)*np.cos(theta1-theta2)-18*g*m2*np.sin(theta2)-6*l1*m1*np.sin(theta1-theta2)*np.square(omega1)-18*l1*m2*np.sin(theta1-theta2)*np.square(omega1)+9*l2*m2*np.square(np.sin(theta1-theta2))*np.square(theta2)-9*l2*m2*np.sin(theta1-theta2)*np.cos(theta1-theta2)*np.square(theta2)
+    denom1 = (m1 + m2) * l1 - m2 * l1 * np.cos(delta) * np.cos(delta)
+    denom2 = (l2 / l1) * denom1
     
-    denom1 = 4*l1*m1+9*l1*m2*np.sin(theta1-theta2)*np.cos(theta1-theta2)-9*l1*m2*np.square(np.cos(theta1-theta2))+12*l1*m2
-    denom2 = 4*l2*m1+9*l2*m2*np.sin(theta1-theta2)*np.cos(theta1-theta2)-9*l2*m2*np.square(np.cos(theta1-theta2))+12*l2*m2
-    
-    domega1 /= denom1
-    domega2 /= denom2
+    domega1 = (m2 * l1 * omega1**2 * np.sin(delta) * np.cos(delta) + m2 * g * np.sin(theta2) * np.cos(delta) + m2 * l2 * omega2**2 * np.sin(delta) - (m1 + m2) * g * np.sin(theta1)) / denom1
+    domega2 = (-m2 * l2 * omega2**2 * np.sin(delta) * np.cos(delta) + (m1 + m2) * g * np.sin(theta1) * np.cos(delta) - (m1 + m2) * l1 * omega1**2 * np.sin(delta) - (m1 + m2) * g * np.sin(theta2)) / denom2
+
 
     return np.array([omega1, domega1, omega2, domega2])
 
