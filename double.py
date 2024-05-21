@@ -32,4 +32,3 @@ def rungeKutta(state, dt):
     k4 = dt * differentials(state + k3)
 
     return state + (k1 + 2 * k2 + 2 * k3 + k4) / 6
-
