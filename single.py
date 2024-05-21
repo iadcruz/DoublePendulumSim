@@ -12,11 +12,10 @@ gSingle = 9.8
 omega = np.sqrt(l / gSingle)
 
 #Time Variables
-dt = 0.01
-t_max  = 20.0
+dt = 0.1
+t_max  = 200.0
 t = np.arange(0, t_max, dt)
 
-stateSingle = np.array([theta])
 xSingle = []
 ySingle = []
 

@@ -8,8 +8,8 @@ m2 = 1.0
 #Initial conditions
 theta1 = np.pi / 2
 theta2 = np.pi / 2
-omega1 = 2.0
-omega2 = 6.0
+omega1 = -2.0
+omega2 = -6.0
 
 state = np.array([theta1, omega1, theta2, omega2])
 def differentials(state):
