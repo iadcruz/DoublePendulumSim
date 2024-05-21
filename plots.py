@@ -23,7 +23,7 @@ x2 = x1 + l2 * np.sin(t2)
 y2 = y1 - l2 * np.cos(t2)
 
 
-fig, ax = plt.subplots(2, 1, layout="constrained")
+fig, ax = plt.subplots(1, 2, layout="constrained")
 ax[0].set_xlim(-2, 2)
 ax[0].set_ylim(-2, 2)
 
