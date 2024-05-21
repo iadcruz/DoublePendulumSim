@@ -5,7 +5,7 @@ import matplotlib.animation as animation
 from double import rungeKutta
 from double import l1, l2
 from double import state
-from singleDraft import xSingle, ySingle
+from single import xSingle, ySingle
 
 dt = 0.01
 t_max = 20.0
