@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 #Initial Conditions
-theta = np.pi / 2
+theta = np.pi / 3
 l = 1.0
 gSingle = 9.8
 
