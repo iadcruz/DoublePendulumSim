@@ -5,6 +5,7 @@ import matplotlib.animation as animation
 
 #Initial Conditions
 theta = np.pi / 3
+m = 1.0
 l = 1.0
 gSingle = 9.8
 

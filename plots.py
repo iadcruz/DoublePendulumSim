@@ -6,6 +6,7 @@ from double import rungeKutta
 from double import l1, l2
 from double import state
 from single import xSingle, ySingle
+from single import m, l, gSingle
 
 dt = 0.01
 t_max = 20.0
@@ -23,7 +24,14 @@ y1 = -l1 * np.cos(t1)
 x2 = x1 + l2 * np.sin(t2)
 y2 = y1 - l2 * np.cos(t2)
 
-fig, ax = plt.subplots(2, 2, layout="constrained")
+#Energy Calculations
+potentialEnergy = []
+kineticEnergy = []
+for ys in ySingle:
+    potentialEnergy.append(m * gSingle * (l-ys))
+    kineticEnergy.append((np.max(ySingle) - ys) * m * gSingle)
+
+fig, ax = plt.subplots(3, 2, layout="constrained")
 ax[0][0].set_xlim(-2, 2)
 ax[0][0].set_ylim(-2, 2)
 ax[0][1].set_xlim(-2, 2)
@@ -33,6 +41,11 @@ ax[1][0].set_xlim(0, 20)
 ax[1][0].set_ylim(-2, 2)
 ax[1][1].set_xlim(0, 20)
 ax[1][1].set_ylim(-2, 2)
+
+ax[2][0].set_xlim(0, 20)
+ax[2][0].set_ylim(np.min(kineticEnergy)-1, np.max(kineticEnergy)+1)
+ax[2][1].set_xlim(0, 20)
+ax[2][1].set_ylim(np.min(potentialEnergy)-1, np.max(potentialEnergy)+1)
 
 line, = ax[0][1].plot([], [], 'o-', lw=2)
 trace, = ax[0][1].plot([], [], 'b-', lw=1)
@@ -48,6 +61,12 @@ ax[1][0].set_title('X Position vs. Time')
 trace4, = ax[1][1].plot([], [], 'b-', lw=1)
 ax[1][1].set_title('Y Position vs. Time')
 
+trace5, = ax[2][0].plot([], [], 'b-', lw=1)
+ax[2][0].set_title('Kinetic Energy vs. Time')
+
+trace6, = ax[2][1].plot([], [], 'b-', lw=1)
+ax[2][1].set_title('Potential Energy vs. Time')
+
 def init():
     line.set_data([], [])
     trace.set_data([], [])
@@ -57,7 +76,9 @@ def init():
 
     trace3.set_data([], [])
     trace4.set_data([], [])
-    return line, trace, line2, trace2, trace3, trace4
+    trace5.set_data([], [])
+    trace6.set_data([], [])
+    return line, trace, line2, trace2, trace3, trace4, trace5, trace6
 
 def update(i):
     thisx = [0, x1[i], x2[i]]
@@ -72,7 +93,9 @@ def update(i):
 
     trace3.set_data(t[:i], xSingle[:i])
     trace4.set_data(t[:i], ySingle[:i])
-    return line, trace, line2, trace2, trace3, trace4
+    trace5.set_data(t[:i], kineticEnergy[:i])
+    trace6.set_data(t[:i], potentialEnergy[:i])
+    return line, trace, line2, trace2, trace3, trace4, trace5, trace6
 
 ani = animation.FuncAnimation(fig, update, frames=len(t), init_func=init, blit=True, interval=dt*1000)
 
