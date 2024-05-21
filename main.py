@@ -61,16 +61,20 @@ ax.set_xlim(-2, 2)
 ax.set_ylim(-2, 2)
 
 line, = ax.plot([], [], 'o-', lw=2)
+trace, = ax.plot([], [], 'b-', lw=1)
 
 def init():
     line.set_data([], [])
-    return line,
+    trace.set_data([], [])
+    return line, trace
 
 def update(i):
     thisx = [0, x1[i], x2[i]]
     thisy = [0, y1[i], y2[i]]
     line.set_data(thisx, thisy)
-    return line,
+    trace.set_data(x2[:i], y2[:i])
+    return line, trace
 
 ani = animation.FuncAnimation(fig, update, frames=len(t), init_func=init, blit=True, interval=dt*1000)
+
 plt.show()
