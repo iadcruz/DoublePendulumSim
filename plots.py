@@ -29,13 +29,13 @@ ax[0].set_ylim(-2, 2)
 ax[1].set_xlim(-2, 2)
 ax[1].set_ylim(-2, 2)
 
-line, = ax[0].plot([], [], 'o-', lw=2)
-trace, = ax[0].plot([], [], 'b-', lw=1)
-ax[0].set_title('Double Pendulum')
+line, = ax[1].plot([], [], 'o-', lw=2)
+trace, = ax[1].plot([], [], 'b-', lw=1)
+ax[1].set_title('Double Pendulum')
 
-line2, = ax[1].plot([], [], 'o-', lw=2)
-trace2, = ax[1].plot([], [], 'b-', lw=1)
-ax[1].set_title('Single Pendulum')
+line2, = ax[0].plot([], [], 'o-', lw=2)
+trace2, = ax[0].plot([], [], 'b-', lw=1)
+ax[0].set_title('Single Pendulum')
 
 def init():
     line.set_data([], [])
@@ -43,7 +43,7 @@ def init():
 
     line2.set_data([], [])
     trace2.set_data([], [])
-    
+
     return line, trace, line2, trace2
 
 def update(i):
