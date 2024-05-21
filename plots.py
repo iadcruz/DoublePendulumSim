@@ -40,8 +40,10 @@ ax[1].set_title('Single Pendulum')
 def init():
     line.set_data([], [])
     trace.set_data([], [])
+
     line2.set_data([], [])
     trace2.set_data([], [])
+    
     return line, trace, line2, trace2
 
 def update(i):
