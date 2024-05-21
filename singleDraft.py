@@ -2,9 +2,6 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from plots import t_max
-from plots import dt
-from plots import t
 
 #Initial Conditions
 theta = 0.0
@@ -13,6 +10,11 @@ gSingle = 9.8
 
 #Constants
 omega = np.sqrt(l / gSingle)
+
+#Time Variables
+dt = 0.01
+t_max  = 20
+t = np.arange(0, t_max, dt)
 
 stateSingle = np.array([theta])
 xSingle = []
