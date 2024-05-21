@@ -2,6 +2,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.widgets import Slider
 from double import rungeKutta
 from double import l1, l2
 from double import state
@@ -13,6 +14,8 @@ t_max = 20.0
 t = np.arange(0, t_max, dt)
 t1 = []
 t2 = []
+initial_theta = np.pi / 2
+initial_omega = -2
 
 for _ in t:
     state = rungeKutta(state, dt)
@@ -32,6 +35,7 @@ for ys in ySingle:
     kineticEnergy.append((np.max(ySingle) - ys) * m * gSingle)
 
 fig, ax = plt.subplots(3, 2, layout="constrained")
+plt.subplots_adjust(left=0.25, bottom=0.35)
 ax[0][0].set_xlim(-2, 2)
 ax[0][0].set_ylim(-2, 2)
 ax[0][1].set_xlim(-2, 2)
@@ -98,5 +102,38 @@ def update(i):
     return line, trace, line2, trace2, trace3, trace4, trace5, trace6
 
 ani = animation.FuncAnimation(fig, update, frames=len(t), init_func=init, blit=True, interval=dt*1000)
+
+axcolor = 'lightgoldenrodyellow'
+ax_theta = plt.axes([0.25, 0.2, 0.65, 0.03], facecolor=axcolor)
+ax_omega = plt.axes([0.25, 0.15, 0.65, 0.03], facecolor=axcolor)
+
+slider_theta = Slider(ax_theta, 'Theta', -np.pi, np.pi, valinit=initial_theta)
+slider_omega = Slider(ax_omega, 'Omega', -10, 10, valinit=initial_omega)
+
+def update_pendulum(theta, omega):
+    global state, t1, t2, x1, y1, x2, y2
+    state[0] = theta
+    state[2] = omega
+    t1 = []
+    t2 = []
+    for _ in t:
+       state = rungeKutta(state, dt)
+       t1.append(state[0])
+       t2.append(state[2])
+    x1 = l1 * np.sin(t1)
+    y1 = -l1 * np.cos(t1)
+    x2 = x1 + l2 * np.sin(t2)
+    y2 = y1 - l2 * np.cos(t2)
+
+
+def update_sliders():
+    theta = slider_theta.val
+    omega = slider_omega.val
+    update_pendulum(theta, omega)
+    ani.event_source.stop()  # Stop the animation
+    ani.event_source.start()  # Restart the animation
+
+slider_theta.on_changed(update_sliders)
+slider_omega.on_changed(update_sliders)
 
 plt.show()
