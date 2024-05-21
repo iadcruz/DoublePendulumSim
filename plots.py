@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.widgets import Slider
+from matplotlib.widgets import TextBox
 from double import rungeKutta
 from double import l1, l2
 from double import state
@@ -35,7 +36,7 @@ for ys in ySingle:
     kineticEnergy.append((np.max(ySingle) - ys) * m * gSingle)
 
 fig, ax = plt.subplots(3, 2, layout="constrained")
-plt.subplots_adjust(left=0.25, bottom=0.35)
+fig.subplots_adjust(bottom=0.2)
 ax[0][0].set_xlim(-2, 2)
 ax[0][0].set_ylim(-2, 2)
 ax[0][1].set_xlim(-2, 2)
@@ -111,9 +112,8 @@ slider_theta = Slider(ax_theta, 'Theta', -np.pi, np.pi, valinit=initial_theta)
 slider_omega = Slider(ax_omega, 'Omega', -10, 10, valinit=initial_omega)
 
 def update_pendulum(theta, omega):
-    global state, t1, t2, x1, y1, x2, y2
     state[0] = theta
-    state[2] = omega
+    state[1] = omega
     t1 = []
     t2 = []
     for _ in t:
@@ -133,7 +133,7 @@ def update_sliders():
     ani.event_source.stop()  # Stop the animation
     ani.event_source.start()  # Restart the animation
 
-slider_theta.on_changed(update_sliders)
-slider_omega.on_changed(update_sliders)
+slider_theta.on_changed(update_sliders())
+slider_omega.on_changed(update_sliders())
 
 plt.show()
