@@ -69,7 +69,6 @@ def init():
 def update(i):
     thisx = [0, x1[i], x2[i]]
     thisy = [0, y1[i], y2[i]]
-    
     line.set_data(thisx, thisy)
     return line,
 
